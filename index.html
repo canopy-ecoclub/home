@@ -223,25 +223,32 @@
   #members { background: var(--cream); position: relative; overflow: hidden; }
   .members-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; margin-top: 40px; }
   .member-card {
-    padding: 24px; text-align: center; transition: all 0.6s var(--ease);
+    padding: 0; /* Remove top padding */
+    padding-bottom: 32px;
+    text-align: center;
+    transition: all 0.6s var(--ease);
     perspective: 1000px;
+    overflow: hidden; /* Important to clip the image to the card's rounded corners */
   }
   .member-photo-wrap {
-    width: 100%; aspect-ratio: 1/1.2; border-radius: 24px; overflow: hidden;
-    margin-bottom: 24px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.15);
-    background: var(--cream-deep); position: relative;
+    width: 100%;
+    aspect-ratio: 1/1.2;
+    overflow: hidden;
+    margin-bottom: 24px;
+    background: var(--cream-deep);
+    position: relative;
   }
   .member-photo-wrap img {
-    width: 100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    object-position: top; /* Keeps the head from being cut off */
+    object-position: top center; /* Fixes missing heads */
     transition: transform 0.8s var(--ease);
   }
   .member-card:hover .member-photo-wrap img { transform: scale(1.1); }
-  .member-card h4 { font-size: 1.4rem; margin-bottom: 6px; }
-  .member-role { font-size: 0.75rem; font-weight: 700; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
-  .member-bio { font-size: 0.92rem; color: var(--forest); opacity: 0.8; line-height: 1.6; }
+  .member-card h4 { font-size: 1.4rem; margin-bottom: 6px; padding: 0 24px; }
+  .member-role { font-size: 0.75rem; font-weight: 700; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; padding: 0 24px; }
+  .member-bio { font-size: 0.92rem; color: var(--forest); opacity: 0.8; line-height: 1.6; padding: 0 24px; }
 
   #details { background:var(--cream-deep); position:relative; overflow:hidden; }
   .details-bg { position:absolute; inset:0; background:url('images/details.jpg') center/cover; opacity:.14; }
@@ -397,7 +404,7 @@
           </div>
           <div class="member-role">President</div>
           <h4>Senthilnathan S</h4>
-         
+          <p class="member-bio">A visionary leader dedicated to environmental stewardship and campus sustainability. He believes that every small action contributes to a larger ecological impact.</p>
         </div>
         <div class="member-card glass reveal">
           <div class="member-photo-wrap">
@@ -405,7 +412,7 @@
           </div>
           <div class="member-role">Vice President</div>
           <h4>Kishore Kumar S</h4>
-         
+          <p class="member-bio">Passionate about teamwork and conservation, he drives the club's initiatives with a focus on long-term ecological balance and community service.</p>
         </div>
         <div class="member-card glass reveal">
           <div class="member-photo-wrap">
@@ -413,7 +420,7 @@
           </div>
           <div class="member-role">Secretary</div>
           <h4>Jeremy John</h4>
-        
+          <p class="member-bio">With a keen eye for organizational excellence, he ensures the seamless execution of projects while advocating for responsible environmental practices.</p>
         </div>
         <div class="member-card glass reveal">
           <div class="member-photo-wrap">
@@ -421,7 +428,7 @@
           </div>
           <div class="member-role">Joint Secretary</div>
           <h4>Fayis Ashraf</h4>
-         
+          <p class="member-bio">Committed to sustainability and service, he works tirelessly to inspire fellow students to take an active role in preserving our natural heritage.</p>
         </div>
       </div>
     </div>
@@ -479,7 +486,7 @@
       <div class="eyebrow">Join the Drive</div>
       <h2>Bring your hands. Leave a canopy.</h2>
       <p>One tap reserves your spot for the Tree Plantation Drive. Takes under a minute, no printouts, no queues.</p>
-      <a href="https://docs.google.com/spreadsheets/d/1qBtlv-F9D4XrAQPQJjoTmE026ef_LPKmU_52dGikZ00/edit?usp=sharing" class="btn btn-primary btn-register">
+      <a href="#" class="btn btn-primary btn-register">
         <span class="shine"></span>Register Now →
       </a>
     </div>
@@ -625,7 +632,7 @@
     }
     tick(); setInterval(tick, 1000);
 
-    // REVEALS & PARALLAX
+  /* REVEALS & PARALLAX */
     if (!REDUCED) {
       document.querySelectorAll('.reveal').forEach(el => {
         gsap.to(el, { opacity:1, y:0, duration:1.2, ease:'power3.out', scrollTrigger:{ trigger:el, start:'top 90%' } });
@@ -633,6 +640,25 @@
       gsap.to('#heroParallax', { yPercent:20, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:true } });
       gsap.to('#aboutMedia img', { scale: 1.2, ease:'none', scrollTrigger:{ trigger:'#about', start:'top bottom', end:'bottom top', scrub:true } });
     }
+
+    /* MOBILE ADJUSTMENTS */
+    const mobileStyles = `
+      @media (max-width: 900px) {
+        .details-grid { grid-template-columns: 1fr; }
+        .detail-list { grid-template-columns: 1fr 1fr; }
+        .countdown-grid { gap: 8px; }
+        .countdown-num { font-size: 1.8rem; padding: 10px 2px; }
+      }
+      @media (max-width: 480px) {
+        .countdown-grid { gap: 4px; }
+        .countdown-num { font-size: 1.5rem; }
+        .countdown-unit span { font-size: 0.5rem; }
+      }
+    `;
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = mobileStyles;
+    document.head.appendChild(styleSheet);
+
 
     // VINE TRACK
     const vinePath = document.getElementById('vinePath');
@@ -664,5 +690,5 @@
     });
 
   </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a16fc88c6b857fce',t:'MTc4MzM1MzIxNw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
