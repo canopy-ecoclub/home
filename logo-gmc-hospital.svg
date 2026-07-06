@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <!-- PLACEHOLDER LOGO — replace this file with the real Government Medical College & Hospital
+       emblem (keep the filename "logo-gmc-hospital.svg", or swap to .png and update the
+       <img> reference in index.html) -->
+  <circle cx="120" cy="120" r="114" fill="#F7F3E8" stroke="#1F3D2B" stroke-width="2"/>
+  <circle cx="120" cy="120" r="100" fill="none" stroke="#1F3D2B" stroke-width="1.5"/>
+  <path id="gmcTop" d="M 32 122 A 88 88 0 0 1 208 122" fill="none"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="11.5" fill="#1F3D2B" letter-spacing="2">
+    <textPath href="#gmcTop" startOffset="50%" text-anchor="middle">GOVT. MEDICAL COLLEGE &amp; HOSPITAL</textPath>
+  </text>
+  <path id="gmcBot" d="M 42 148 A 88 88 0 0 0 198 148" fill="none"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="10" fill="#8FA888" letter-spacing="2">
+    <textPath href="#gmcBot" startOffset="50%" text-anchor="middle">OMANDURAR ESTATE · CHENNAI</textPath>
+  </text>
+  <!-- lamp of knowledge / caduceus mark -->
+  <ellipse cx="120" cy="128" rx="22" ry="8" fill="none" stroke="#C9A85C" stroke-width="2.5"/>
+  <path d="M98 128 Q120 60 142 128" fill="none" stroke="#C9A85C" stroke-width="2.5"/>
+  <line x1="120" y1="128" x2="120" y2="150" stroke="#1F3D2B" stroke-width="3"/>
+  <rect x="104" y="150" width="32" height="6" fill="#1F3D2B"/>
+</svg>

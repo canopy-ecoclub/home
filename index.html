@@ -3,921 +3,374 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Canopy — Eco Club | Tree Plantation Drive</title>
-<meta name="description" content="Canopy Eco Club Tree Plantation Drive — Government Omandurar Medical College, Chennai. 10 July 2026.">
+<title>Canopy — Eco Club · Tree Plantation Drive</title>
+<meta name="description" content="Let's Green Our Campus and Grow Together — Canopy Eco Club's Tree Plantation Drive at Government Omandurar Medical College, Chennai. 10 July 2026, 9–11 AM.">
+
+<!-- =====================================================================
+     EASY-EDIT NOTES FOR WHOEVER MAINTAINS THIS SITE
+     1. Google Form link  -> search "PLACEHOLDER" below (register button + sticky CTA)
+     2. Logos             -> /images/logo-canopy.svg, logo-community-medicine.svg,
+                              logo-gmc-hospital.svg (placeholders — drop in the real
+                              files with the same names, .png works too, just update
+                              the file extension in the <img> tags below)
+     3. Photography       -> hotlinked directly from Unsplash (real, verified photo URLs,
+                              free under the Unsplash License). Search "images.unsplash.com"
+                              in index.html / css/style.css to find and swap each one.
+                              See images/README.md if you'd rather self-host the files.
+     4. Event date/time   -> search "2026-07-10T09:00:00" in js/main.js for the countdown
+     ===================================================================== -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-<style>
-  /* ============================================================
-     CANOPY — DESIGN TOKENS
-     ============================================================ */
-  :root{
-    --cream:        #F7F1E1;   /* base background */
-    --cream-deep:   #EFE6CD;   /* secondary panels */
-    --forest:       #1F3D2B;   /* primary type / structure */
-    --forest-deep:  #12261A;   /* darkest accents / hero overlays */
-    --gold:         #C9A855;   /* accent, highlights */
-    --gold-soft:    #E3CD8F;
-    --sage:         #8FA888;   /* secondary accent */
-    --ink:          #22301C;
-    --glass-fill:   rgba(247,241,225,0.55);
-    --glass-border: rgba(31,61,43,0.14);
-    --glass-fill-dark: rgba(18,38,26,0.42);
-
-    --font-display: "Fraunces", serif;
-    --font-body:    "Inter", sans-serif;
-
-    --ease: cubic-bezier(.22,1,.36,1);
-  }
-
-  *{ margin:0; padding:0; box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
-  body{
-    background:var(--cream);
-    color:var(--ink);
-    font-family:var(--font-body);
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-  }
-  img{ max-width:100%; display:block; }
-  a{ color:inherit; text-decoration:none; }
-  ::selection{ background:var(--gold-soft); color:var(--forest-deep); }
-
-  :focus-visible{
-    outline:2px solid var(--forest);
-    outline-offset:3px;
-    border-radius:4px;
-  }
-
-  .wrap{
-    max-width:1180px;
-    margin:0 auto;
-    padding:0 clamp(20px, 5vw, 64px);
-  }
-
-  .eyebrow{
-    font-family:var(--font-body);
-    font-weight:600;
-    font-size:.72rem;
-    letter-spacing:.22em;
-    text-transform:uppercase;
-    color:var(--forest);
-    opacity:.72;
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .eyebrow::before{
-    content:"";
-    width:22px; height:1px;
-    background:var(--gold);
-    display:inline-block;
-  }
-
-  h1,h2,h3{ font-family:var(--font-display); color:var(--forest-deep); line-height:1.04; }
-
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    font-family:var(--font-body);
-    font-weight:600;
-    font-size:.95rem;
-    letter-spacing:.01em;
-    padding:16px 34px;
-    border-radius:100px;
-    cursor:pointer;
-    border:none;
-    position:relative;
-    overflow:hidden;
-    transition:transform .45s var(--ease), box-shadow .45s var(--ease);
-  }
-  .btn-primary{
-    background:linear-gradient(135deg, var(--forest) 0%, var(--forest-deep) 100%);
-    color:var(--cream);
-    box-shadow:0 8px 30px -10px rgba(18,38,26,.55);
-  }
-  .btn-primary::after{
-    content:"";
-    position:absolute; inset:0;
-    background:radial-gradient(circle at 50% 0%, rgba(201,168,85,.55), transparent 60%);
-    opacity:0;
-    transition:opacity .45s var(--ease);
-  }
-  .btn-primary:hover{ transform:translateY(-3px) scale(1.015); box-shadow:0 16px 40px -12px rgba(18,38,26,.6), 0 0 0 6px rgba(201,168,85,.14); }
-  .btn-primary:hover::after{ opacity:1; }
-  .btn-primary:active{ transform:translateY(-1px) scale(.99); }
-
-  /* ============================================================
-     GLASS SURFACES (2026-style: layered, restrained blur)
-     ============================================================ */
-  .glass{
-    background:var(--glass-fill);
-    border:1px solid var(--glass-border);
-    backdrop-filter:blur(18px) saturate(140%);
-    -webkit-backdrop-filter:blur(18px) saturate(140%);
-    border-radius:28px;
-    box-shadow:0 30px 60px -30px rgba(18,38,26,.35);
-  }
-  @supports not (backdrop-filter: blur(1px)){
-    .glass{ background:rgba(247,241,225,.94); }
-  }
-
-  /* ============================================================
-     LEAF MOTIF (signature shape reused across the page)
-     ============================================================ */
-  .leaf-drift{
-    position:absolute; pointer-events:none; opacity:.5;
-    color:var(--sage);
-  }
-
-  /* ============================================================
-     OPENING LOGO BLOOM
-     ============================================================ */
-  #bloom{
-    position:fixed; inset:0; z-index:999;
-    background:var(--cream);
-    display:flex; align-items:center; justify-content:center;
-    transition:opacity .8s var(--ease), visibility .8s;
-  }
-  #bloom.hide{ opacity:0; visibility:hidden; pointer-events:none; }
-  #bloom svg{ width:min(46vw, 220px); }
-  #bloom .bloom-word{
-    position:absolute;
-    bottom:32%;
-    font-family:var(--font-display);
-    font-size:.95rem;
-    letter-spacing:.32em;
-    text-transform:uppercase;
-    color:var(--forest);
-    opacity:0;
-  }
-  .tree-path{
-    fill:none;
-    stroke:var(--forest);
-    stroke-width:2.4;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    stroke-dasharray:900;
-    stroke-dashoffset:900;
-  }
-  .tree-canopy{
-    fill:var(--sage);
-    opacity:0;
-    transform-origin:center;
-  }
-  .tree-canopy.gold{ fill:var(--gold); }
-
-  /* ============================================================
-     NAV
-     ============================================================ */
-  nav{
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:16px clamp(20px,5vw,56px);
-    opacity:0; transform:translateY(-14px);
-  }
-  nav.show{ opacity:1; transform:translateY(0); transition:opacity .7s var(--ease), transform .7s var(--ease); }
-  .nav-inner{
-    width:100%;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:10px 22px;
-    border-radius:100px;
-  }
-  .nav-brand{
-    display:flex; align-items:center; gap:10px;
-    font-family:var(--font-display);
-    font-weight:600; font-size:1.05rem;
-    color:var(--forest-deep);
-  }
-  .nav-brand svg{ width:28px; height:28px; }
-  .nav-links{ display:flex; gap:28px; }
-  .nav-links a{
-    font-size:.82rem; font-weight:600; letter-spacing:.03em;
-    color:var(--forest); opacity:.75;
-    position:relative;
-    padding-bottom:4px;
-  }
-  .nav-links a::after{
-    content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
-    background:var(--gold); transition:width .35s var(--ease);
-  }
-  .nav-links a:hover{ opacity:1; }
-  .nav-links a:hover::after{ width:100%; }
-  .nav-cta{
-    padding:10px 22px; font-size:.8rem;
-  }
-  @media (max-width:760px){ .nav-links{ display:none; } }
-
-  /* ============================================================
-     HERO
-     ============================================================ */
-  #hero{
-    position:relative;
-    min-height:100vh;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center;
-    padding-top:120px;
-    overflow:hidden;
-    background:
-      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(201,168,85,.20), transparent 60%),
-      radial-gradient(ellipse 80% 60% at 15% 100%, rgba(143,168,136,.28), transparent 55%),
-      var(--cream);
-  }
-  .hero-canopy-img{
-    position:absolute; inset:0;
-    background:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1600&auto=format&fit=crop') center 30% / cover;
-    opacity:.16;
-    transform:translateZ(0) scale(1.15);
-    filter:saturate(.9);
-  }
-  .hero-content{ position:relative; z-index:2; max-width:900px; padding:0 20px; }
-  .hero-eyebrow{ justify-content:center; margin-bottom:22px; }
-  .hero-eyebrow::before{ display:none; }
-  .hero-title{
-    font-size:clamp(3.4rem, 11vw, 8.2rem);
-    font-weight:600;
-    letter-spacing:-.01em;
-    color:var(--forest-deep);
-  }
-  .hero-title em{
-    font-style:italic; font-weight:400; color:var(--gold);
-  }
-  .hero-tagline{
-    font-family:var(--font-display);
-    font-style:italic;
-    font-size:clamp(1.15rem,2.4vw,1.6rem);
-    color:var(--forest);
-    margin-top:18px;
-    opacity:.85;
-  }
-  .hero-sub{
-    margin-top:34px;
-    font-size:1.02rem;
-    color:var(--forest);
-    opacity:.8;
-    font-weight:500;
-  }
-  .hero-scroll{
-    position:absolute; bottom:38px; left:50%; transform:translateX(-50%);
-    display:flex; flex-direction:column; align-items:center; gap:8px;
-    font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
-    color:var(--forest); opacity:.6;
-  }
-  .hero-scroll .line{
-    width:1px; height:34px; background:linear-gradient(var(--forest), transparent);
-    animation:scrollpulse 2.2s ease-in-out infinite;
-  }
-  @keyframes scrollpulse{ 0%,100%{opacity:.3} 50%{opacity:1} }
-
-  .leaf-particle{
-    position:absolute; width:16px; height:16px; opacity:.35;
-    color:var(--sage);
-  }
-
-  /* ============================================================
-     SECTION SHELL
-     ============================================================ */
-  section{ position:relative; }
-  .section-pad{ padding:clamp(90px,12vw,150px) 0; }
-  .section-head{ max-width:640px; margin-bottom:56px; }
-  .section-head h2{
-    font-size:clamp(2.2rem,4.6vw,3.4rem);
-    font-weight:500;
-    margin-top:16px;
-  }
-  .section-head p{
-    margin-top:18px; font-size:1.05rem; line-height:1.7; color:var(--forest); opacity:.82;
-  }
-  .reveal{ opacity:0; transform:translateY(40px); }
-
-  /* ============================================================
-     ABOUT
-     ============================================================ */
-  #about{ background:var(--cream); }
-  .about-grid{
-    display:grid; grid-template-columns:1.05fr .95fr; gap:64px; align-items:center;
-  }
-  .about-copy p{ font-size:1.08rem; line-height:1.8; color:var(--forest); opacity:.86; margin-bottom:18px; }
-  .about-copy p:first-of-type{ font-size:1.28rem; font-family:var(--font-display); color:var(--forest-deep); font-style:italic; opacity:1; }
-  .about-media{
-    position:relative; border-radius:32px; overflow:hidden;
-    aspect-ratio:4/5;
-    box-shadow:0 40px 80px -30px rgba(18,38,26,.4);
-  }
-  .about-media img{ width:100%; height:100%; object-fit:cover; transform:scale(1.08); }
-  .about-media .tag{
-    position:absolute; bottom:20px; left:20px; right:20px;
-    padding:16px 20px;
-    color:var(--cream); font-size:.85rem; font-weight:600;
-  }
-  @media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } .about-media{ order:-1; aspect-ratio:16/10; } }
-
-  /* ============================================================
-     INITIATIVE
-     ============================================================ */
-  #initiative{
-    background:linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
-  }
-  .initiative-card{
-    padding:clamp(40px,6vw,72px);
-    display:grid; grid-template-columns:auto 1fr; gap:48px; align-items:center;
-  }
-  .logo-seal{
-    width:132px; height:132px; border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, var(--cream-deep), var(--cream));
-    border:1px solid var(--glass-border);
-    display:flex; align-items:center; justify-content:center;
-    flex-shrink:0;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.4), 0 20px 40px -18px rgba(18,38,26,.35);
-    transition:transform .6s var(--ease), box-shadow .6s var(--ease);
-  }
-  .logo-seal:hover{ transform:rotate(6deg) scale(1.05); box-shadow:0 0 0 10px rgba(201,168,85,.14), 0 20px 40px -18px rgba(18,38,26,.35); }
-  .logo-seal svg{ width:64px; height:64px; }
-  .initiative-text .eyebrow{ margin-bottom:14px; }
-  .initiative-text h3{ font-size:clamp(1.6rem,3vw,2.2rem); font-weight:500; margin-bottom:14px; }
-  .initiative-text p{ color:var(--forest); opacity:.85; line-height:1.75; font-size:1.02rem; }
-  @media (max-width:640px){ .initiative-card{ grid-template-columns:1fr; text-align:center; justify-items:center; } }
-
-  /* ============================================================
-     EVENT DETAILS + COUNTDOWN
-     ============================================================ */
-  #details{
-    background:var(--cream-deep);
-    position:relative;
-    overflow:hidden;
-  }
-  .details-bg{
-    position:absolute; inset:0;
-    background:url('https://images.unsplash.com/photo-1502691876148-a84978e59af8?q=80&w=1600&auto=format&fit=crop') center / cover;
-    opacity:.12;
-  }
-  .details-grid{
-    display:grid; grid-template-columns:1.1fr .9fr; gap:32px;
-  }
-  .detail-card{
-    padding:36px 34px;
-    display:flex; flex-direction:column; gap:6px;
-  }
-  .detail-card .label{ font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); font-weight:700; }
-  .detail-card .value{ font-family:var(--font-display); font-size:1.6rem; color:var(--forest-deep); font-weight:500; }
-  .detail-list{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
-  .invite-line{
-    padding:30px 34px;
-    font-family:var(--font-display); font-style:italic; font-size:1.15rem;
-    color:var(--forest-deep); line-height:1.6;
-  }
-  .countdown-card{
-    padding:38px 34px;
-    display:flex; flex-direction:column; justify-content:center;
-    background:linear-gradient(160deg, rgba(31,61,43,.92), rgba(18,38,26,.94));
-    border:1px solid rgba(255,255,255,.08);
-  }
-  .countdown-card .label{ color:var(--gold-soft); text-align:center; }
-  .countdown-grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
-    margin-top:20px;
-  }
-  .countdown-unit{ text-align:center; }
-  .countdown-num{
-    font-family:var(--font-display); font-size:clamp(1.9rem,4vw,2.6rem);
-    color:var(--cream); font-weight:600;
-    background:rgba(255,255,255,.06);
-    border-radius:14px; padding:12px 4px;
-    border:1px solid rgba(255,255,255,.09);
-  }
-  .countdown-unit span{
-    display:block; margin-top:8px; font-size:.62rem; letter-spacing:.16em;
-    text-transform:uppercase; color:var(--sage);
-  }
-  @media (max-width:900px){ .details-grid{ grid-template-columns:1fr; } .detail-list{ grid-template-columns:1fr 1fr; } }
-
-  /* ============================================================
-     REGISTER
-     ============================================================ */
-  #register{
-    background:radial-gradient(ellipse 120% 100% at 50% 0%, rgba(201,168,85,.16), transparent 60%), var(--forest-deep);
-    color:var(--cream);
-    text-align:center;
-    padding:clamp(110px,14vw,170px) 0;
-    position:relative;
-    overflow:hidden;
-  }
-  #register .register-glow{
-    position:absolute; width:600px; height:600px; border-radius:50%;
-    background:radial-gradient(circle, rgba(201,168,85,.22), transparent 70%);
-    top:-200px; left:50%; transform:translateX(-50%);
-    filter:blur(10px);
-  }
-  #register .eyebrow{ color:var(--gold-soft); opacity:.9; justify-content:center; }
-  #register .eyebrow::before{ background:var(--gold-soft); }
-  #register h2{
-    color:var(--cream);
-    font-size:clamp(2.4rem,6vw,4.2rem);
-    margin:18px 0 20px;
-    font-weight:500;
-  }
-  #register p{ color:var(--sage); max-width:560px; margin:0 auto 40px; font-size:1.05rem; line-height:1.7; }
-  .btn-register{
-    font-size:1.05rem; padding:20px 48px;
-    background:linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-    color:var(--forest-deep);
-    box-shadow:0 20px 50px -15px rgba(201,168,85,.55);
-  }
-  .btn-register:hover{ box-shadow:0 26px 60px -14px rgba(201,168,85,.75), 0 0 0 8px rgba(247,241,225,.12); }
-  .register-cursor-glow{
-    position:absolute; width:280px; height:280px; border-radius:50%;
-    background:radial-gradient(circle, rgba(201,168,85,.35), transparent 70%);
-    pointer-events:none; z-index:0; opacity:0; transition:opacity .4s;
-    transform:translate(-50%,-50%);
-  }
-
-  /* sticky mobile CTA */
-  #mobileCta{
-    position:fixed; left:16px; right:16px; bottom:16px; z-index:90;
-    display:none;
-    transform:translateY(120%); transition:transform .5s var(--ease);
-  }
-  #mobileCta.show{ transform:translateY(0); }
-  #mobileCta .btn{ width:100%; justify-content:center; font-size:.95rem; padding:16px; }
-  @media (max-width:760px){ #mobileCta{ display:block; } }
-
-  /* ============================================================
-     DIGNITARIES
-     ============================================================ */
-  #dignitaries{ background:var(--cream); }
-  .dig-top{ display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-bottom:28px; }
-  .dig-bottom{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px; }
-  .dig-card{
-    padding:34px 30px;
-    transition:transform .5s var(--ease), box-shadow .5s var(--ease);
-  }
-  .dig-card:hover{ transform:translateY(-8px); box-shadow:0 40px 70px -30px rgba(18,38,26,.4); }
-  .dig-avatar{
-    width:56px; height:56px; border-radius:50%;
-    background:linear-gradient(135deg, var(--sage), var(--forest));
-    display:flex; align-items:center; justify-content:center;
-    color:var(--cream); font-family:var(--font-display); font-weight:600; font-size:1.1rem;
-    margin-bottom:20px;
-  }
-  .dig-card h4{ font-family:var(--font-display); font-size:1.25rem; color:var(--forest-deep); font-weight:500; }
-  .dig-card .qual{ font-size:.78rem; letter-spacing:.05em; color:var(--gold); font-weight:700; margin-top:4px; }
-  .dig-card .role{ margin-top:10px; font-size:.92rem; color:var(--forest); opacity:.78; }
-  @media (max-width:860px){ .dig-top, .dig-bottom{ grid-template-columns:1fr; } }
-
-  /* ============================================================
-     FOOTER
-     ============================================================ */
-  footer{
-    background:var(--forest-deep);
-    color:var(--cream);
-    padding:80px 0 40px;
-  }
-  .footer-top{
-    display:flex; justify-content:space-between; align-items:flex-start;
-    gap:40px; flex-wrap:wrap;
-    padding-bottom:48px; border-bottom:1px solid rgba(255,255,255,.1);
-  }
-  .footer-brand{ display:flex; align-items:center; gap:12px; font-family:var(--font-display); font-size:1.3rem; }
-  .footer-brand svg{ width:34px; height:34px; }
-  .footer-logos{ display:flex; align-items:center; gap:26px; flex-wrap:wrap; }
-  .footer-logo-badge{
-    width:64px; height:64px; border-radius:50%;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.12);
-    display:flex; align-items:center; justify-content:center;
-    font-size:.6rem; text-align:center; line-height:1.2; color:var(--sage);
-    padding:6px;
-  }
-  .footer-meta{
-    display:flex; justify-content:space-between; align-items:center;
-    padding-top:32px; flex-wrap:wrap; gap:16px;
-  }
-  .footer-sponsor{ font-size:.85rem; color:var(--sage); }
-  .footer-sponsor b{ color:var(--gold-soft); }
-  .footer-loc{ font-size:.85rem; color:var(--sage); opacity:.85; }
-  .footer-tag{ font-family:var(--font-display); font-style:italic; color:var(--gold-soft); font-size:.95rem; }
-
-  /* reduced motion */
-  @media (prefers-reduced-motion: reduce){
-    *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ============================================================
-       OPENING LOGO BLOOM (signature moment)
-       ============================================================ -->
-  <div id="bloom" aria-hidden="true">
-    <svg viewBox="0 0 200 220">
-      <path class="tree-path" id="trunkPath" d="M100 210 L100 130 M100 150 L70 118 M100 145 L130 112 M100 165 L60 140" />
-      <circle class="tree-canopy" cx="100" cy="86" r="46" />
-      <circle class="tree-canopy" cx="62" cy="108" r="30" />
-      <circle class="tree-canopy gold" cx="140" cy="104" r="28" />
+<!-- ==================================================================
+     OPENING / LOGO MOMENT
+     ================================================================== -->
+<div id="intro-overlay" aria-hidden="true">
+  <div class="intro-mark">
+    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+      <g class="tree-fill" id="introFill">
+        <rect x="115" y="128" width="10" height="30" fill="#6B4A2B"/>
+        <circle cx="120" cy="95" r="34" fill="#2C4F38"/>
+        <circle cx="96" cy="112" r="24" fill="#2C4F38"/>
+        <circle cx="144" cy="112" r="24" fill="#2C4F38"/>
+        <rect x="88" y="150" width="64" height="42" fill="#1F3D2B"/>
+      </g>
+      <g id="introDraw" fill="none">
+        <path class="tree-path" d="M120 158 L120 128" />
+        <path class="tree-path" d="M120 95 m-34 0 a34 34 0 1 0 68 0 a34 34 0 1 0 -68 0" />
+        <path class="tree-path" d="M96 112 m-24 0 a24 24 0 1 0 48 0 a24 24 0 1 0 -48 0" />
+        <path class="tree-path" d="M144 112 m-24 0 a24 24 0 1 0 48 0 a24 24 0 1 0 -48 0" />
+        <path class="tree-path" d="M88 150 L88 192 L152 192 L152 150 Z" />
+      </g>
     </svg>
-    <div class="bloom-word">Canopy</div>
   </div>
+  <span class="intro-tagline" id="introTagline">Together We Thrive</span>
+  <button class="intro-skip" id="introSkip" type="button">Skip intro</button>
+</div>
 
-  <!-- ============================================================
-       NAV
-       ============================================================ -->
-  <nav id="siteNav">
-    <div class="nav-inner glass">
-      <div class="nav-brand">
-        <svg viewBox="0 0 40 40" fill="none">
-          <circle cx="20" cy="15" r="9" fill="#8FA888"/>
-          <circle cx="12" cy="20" r="6" fill="#C9A855"/>
-          <path d="M20 22 L20 34" stroke="#1F3D2B" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        Canopy
-      </div>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#details">Event</a>
-        <a href="#dignitaries">Dignitaries</a>
-      </div>
-      <a href="#register" class="btn btn-primary nav-cta">Register</a>
-    </div>
-  </nav>
+<!-- ==================================================================
+     NAVBAR
+     ================================================================== -->
+<nav class="navbar" id="navbar">
+  <a class="nav-brand" href="#top" aria-label="Canopy home">
+    <img src="images/logo-canopy.svg" alt="Canopy Eco Club logo" width="36" height="36">
+    <span>Canopy</span>
+  </a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#initiative">Initiative</a>
+    <a href="#event">Event</a>
+    <a href="#dignitaries">Guests</a>
+  </div>
+  <a class="nav-cta" href="#register">Register</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-  <!-- ============================================================
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">About</a>
+  <a href="#initiative">Initiative</a>
+  <a href="#event">Event</a>
+  <a href="#dignitaries">Guests</a>
+  <a href="#register">Register</a>
+</div>
+
+<main id="top">
+
+  <!-- ================================================================
        HERO
-       ============================================================ -->
-  <header id="hero">
-    <div class="hero-canopy-img" id="heroParallax"></div>
-    <div id="particles"></div>
-    <div class="hero-content">
-      <div class="eyebrow hero-eyebrow">Government Omandurar Medical College · Chennai</div>
-      <h1 class="hero-title">Canopy <em>Eco Club</em></h1>
-      <p class="hero-tagline">"Together We Thrive"</p>
-      <p class="hero-sub">Tree Plantation Drive — Let's green our campus and grow together.</p>
+       ================================================================ -->
+  <header class="hero" id="hero">
+    <div class="hero-mesh" aria-hidden="true"></div>
+    <div class="hero-canopy-layer" aria-hidden="true"></div>
+
+    <div class="hero-leaf" style="top:14%; left:6%;" data-depth="0.15" aria-hidden="true">
+      <svg viewBox="0 0 100 100" fill="none" stroke="#1F3D2B" stroke-width="1.4"><path d="M50 5 C20 25 15 60 50 95 C85 60 80 25 50 5 Z M50 5 L50 95"/></svg>
     </div>
-    <div class="hero-scroll"><span>Scroll</span><span class="line"></span></div>
+    <div class="hero-leaf" style="top:60%; right:8%; width:110px;" data-depth="0.25" aria-hidden="true">
+      <svg viewBox="0 0 100 100" fill="none" stroke="#8FA888" stroke-width="1.4"><path d="M50 5 C20 25 15 60 50 95 C85 60 80 25 50 5 Z M50 5 L50 95"/></svg>
+    </div>
+    <div class="hero-leaf" style="top:30%; right:20%; width:70px;" data-depth="0.35" aria-hidden="true">
+      <svg viewBox="0 0 100 100" fill="none" stroke="#C9A85C" stroke-width="1.4"><path d="M50 5 C20 25 15 60 50 95 C85 60 80 25 50 5 Z M50 5 L50 95"/></svg>
+    </div>
+
+    <div class="particles" id="particles" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <p class="hero-kicker">Canopy · Eco Club presents</p>
+      <h1 class="hero-title">
+        <span class="line"><span>Let's Green</span></span>
+        <span class="line"><span>Our <em>Campus</em></span></span>
+        <span class="line"><span>&amp; Grow Together</span></span>
+      </h1>
+      <p class="hero-sub">
+        A <strong>Tree Plantation Drive</strong> hosted by the Department of Community
+        Medicine — Government Omandurar Medical College, Chennai. Tagline: <strong>Together We Thrive.</strong>
+      </p>
+      <div class="hero-meta">
+        <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>10 July 2026</span>
+        <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>9:00 – 11:00 AM</span>
+        <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>Tower 5, GMC OGE</span>
+      </div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="stem"></div>
+    </div>
   </header>
 
-  <!-- ============================================================
-       ABOUT
-       ============================================================ -->
-  <section id="about" class="section-pad">
-    <div class="wrap about-grid">
-      <div class="about-copy reveal">
-        <div class="eyebrow">About the Club</div>
-        <h2 style="margin-top:16px; margin-bottom:22px; font-size:clamp(2rem,4vw,2.8rem); font-weight:500;">A canopy grown by many hands</h2>
-        <p>Every tree planted here starts as one small act, repeated until a campus turns green.</p>
-        <p>Canopy is the Eco Club of Government Omandurar Medical College — a community of students, faculty, and staff working to make the campus greener, cooler, and more alive. It began with a simple belief: a hospital that heals people should also help heal the ground it stands on.</p>
-        <p>The Tree Plantation Drive is Canopy's first major initiative — an open invitation to plant, together, the shade this campus will stand under for decades.</p>
-      </div>
-      <div class="about-media reveal">
-        <img src="https://images.unsplash.com/photo-1516214104703-d870798883c5?q=80&w=1200&auto=format&fit=crop" alt="Sunlight filtering through a green tree canopy" loading="lazy">
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       INITIATIVE BY — DEPARTMENT OF COMMUNITY MEDICINE
-       ============================================================ -->
-  <section id="initiative" class="section-pad">
-    <div class="wrap">
-      <div class="initiative-card glass reveal">
-        <!-- LOGO PLACEHOLDER: swap with logo-community-medicine.png -->
-        <div class="logo-seal">
-          <svg viewBox="0 0 64 64" fill="none">
-            <path d="M32 6 L54 16 V32 C54 46 44 54 32 58 C20 54 10 46 10 32 V16 Z" stroke="#1F3D2B" stroke-width="2"/>
-            <path d="M32 22 L32 42 M24 30 L32 22 L40 30" stroke="#C9A855" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="initiative-text">
-          <div class="eyebrow">An Initiative By</div>
-          <h3>Department of Community&nbsp;Medicine</h3>
-          <p>Guided by the department that has long championed preventive care and public health, this drive extends that mission outward — from clinics and classrooms to open ground, one sapling at a time.</p>
+  <!-- ================================================================
+       ABOUT CANOPY / ECO CLUB
+       ================================================================ -->
+  <section class="about section-pad" id="about">
+    <div class="container about-grid">
+      <div class="about-copy-col">
+        <span class="eyebrow reveal reveal-up">Seed — Who We Are</span>
+        <h2 class="about-title reveal reveal-up">
+          Canopy is the Eco Club's promise to <span class="accent">grow with</span> the campus that grows us.
+        </h2>
+        <p class="about-copy reveal reveal-up">
+          We started Canopy on a simple belief: a campus is more than its buildings — it's
+          the shade it offers, the air it clears, and the roots it puts down for the people
+          who pass through it. Every drive, every sapling, every Saturday morning spent with
+          soil under our nails is a small act of keeping that promise.
+        </p>
+        <p class="about-copy reveal reveal-up">
+          "Let's Green Our Campus and Grow Together" isn't just this event's name — it's how
+          we measure every initiative we run. Growth we can point to, shade we can stand under,
+          and a community that shows up for it.
+        </p>
+        <div class="about-stats">
+          <div class="stat reveal reveal-up"><b>01</b><span>Campus, One Canopy</span></div>
+          <div class="stat reveal reveal-up"><b>9–11</b><span>AM, One Morning</span></div>
+          <div class="stat reveal reveal-up"><b>2026</b><span>Est. This Drive</span></div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       EVENT DETAILS + COUNTDOWN
-       ============================================================ -->
-  <section id="details" class="section-pad">
-    <div class="details-bg"></div>
-    <div class="wrap" style="position:relative;">
-      <div class="section-head reveal">
-        <div class="eyebrow">Event Details</div>
-        <h2>Mark the morning</h2>
-      </div>
-
-      <div class="details-grid">
-        <div class="reveal" style="display:flex; flex-direction:column; gap:20px;">
-          <div class="detail-list">
-            <div class="detail-card glass">
-              <div class="label">Date</div>
-              <div class="value">10 July 2026</div>
-            </div>
-            <div class="detail-card glass">
-              <div class="label">Time</div>
-              <div class="value">9 – 11 AM</div>
-            </div>
-          </div>
-          <div class="detail-card glass" style="grid-column:1/-1;">
-            <div class="label">Venue</div>
-            <div class="value">Tower 5, GMC OGE</div>
-          </div>
-          <div class="invite-line glass">
-            "We cordially invite the Professors and Heads of Departments, Associate Professors, and Assistant Professors from all departments to join us!"
-          </div>
+      <div class="about-visual reveal reveal-scale">
+        <div class="frame" data-parallax-img>
+          <!-- Photo: "A hand holding a seedling in a pot" — srinivas bandari, Unsplash.
+               Hotlinked per Unsplash License. To self-host: save the file as
+               images/about-planting.jpg and point this src there instead. -->
+          <img src="https://images.unsplash.com/photo-1667031860219-53ecbc4e18c4?w=1000&q=75&auto=format&fit=crop" alt="A hand carefully holding a young sapling and soil, ready for planting" loading="lazy">
         </div>
-
-        <div class="countdown-card glass reveal">
-          <div class="label">Counting down to the first sapling</div>
-          <div class="countdown-grid" id="countdown">
-            <div class="countdown-unit"><div class="countdown-num" id="cd-days">00</div><span>Days</span></div>
-            <div class="countdown-unit"><div class="countdown-num" id="cd-hours">00</div><span>Hours</span></div>
-            <div class="countdown-unit"><div class="countdown-num" id="cd-mins">00</div><span>Mins</span></div>
-            <div class="countdown-unit"><div class="countdown-num" id="cd-secs">00</div><span>Secs</span></div>
-          </div>
+        <div class="float-card glass-dark">
+          <b>Grow Together</b>
+          <p>Every sapling planted this July stands for a small, shared act of care.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================
-       REGISTER
-       ============================================================ -->
-  <section id="register">
-    <div class="register-glow"></div>
-    <div class="register-cursor-glow" id="cursorGlow"></div>
-    <div class="wrap reveal" style="position:relative; z-index:2;">
-      <div class="eyebrow">Join the Drive</div>
-      <h2>Bring your hands.<br>Leave a canopy.</h2>
-      <p>One tap reserves your spot for the Tree Plantation Drive. Takes under a minute — no printouts, no queues.</p>
-      <!-- FORM LINK PLACEHOLDER: replace with the real Google Form URL -->
-      <a href="https://forms.gle/PLACEHOLDER" target="_blank" rel="noopener" class="btn btn-primary btn-register" id="registerBtn">
-        Register Now →
+  <!-- ================================================================
+       AN INITIATIVE BY — DEPT. OF COMMUNITY MEDICINE
+       ================================================================ -->
+  <section class="initiative section-pad" id="initiative">
+    <div class="container initiative-inner">
+      <div class="seal-card glass-dark reveal reveal-scale">
+        <div class="glow" aria-hidden="true"></div>
+        <img src="images/logo-community-medicine.svg" alt="Department of Community Medicine emblem, Government Omandurar Medical College" loading="lazy">
+      </div>
+      <div>
+        <span class="eyebrow reveal reveal-up">Root — An Initiative By</span>
+        <h2 class="initiative-title reveal reveal-up">The Department of Community Medicine is leading this drive from the ground up.</h2>
+        <p class="initiative-copy reveal reveal-up">
+          Community Medicine has always worked at the point where public health meets
+          daily life — and a greener campus is preventive care too. This department is
+          organising and hosting the drive, bringing together faculty from across
+          Government Omandurar Medical College for one shared morning of planting.
+        </p>
+        <div class="initiative-name reveal reveal-up">
+          <b>Dr. S. Arun Murugan, MBBS MD</b>
+          <span>HOD, Community Medicine</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       EVENT DETAILS
+       ================================================================ -->
+  <section class="event section-pad" id="event">
+    <div class="container">
+      <div class="event-head">
+        <span class="eyebrow reveal reveal-up" style="justify-content:center;">Sprout — Event Details</span>
+        <h2 class="event-title reveal reveal-up">One morning. One campus. One canopy at a time.</h2>
+        <p class="event-lede reveal reveal-up">
+          We cordially invite the Professors and Heads of Departments, Associate Professors,
+          and Assistant Professors from all departments to join us!
+        </p>
+      </div>
+
+      <div class="bento">
+        <div class="bento-card card-date glass reveal reveal-up">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+          <h3>Date</h3>
+          <p>10 July 2026</p>
+          <small>Friday morning</small>
+        </div>
+        <div class="bento-card card-time glass reveal reveal-up">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <h3>Time</h3>
+          <p>9:00 – 11:00 AM</p>
+          <small>Please arrive by 8:45 AM</small>
+        </div>
+        <div class="bento-card card-venue glass reveal reveal-up">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <h3>Venue</h3>
+          <p>Tower 5, GMC OGE</p>
+          <small>Omandurar Government Estate</small>
+        </div>
+        <div class="bento-card card-invite glass reveal reveal-up">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+          <h3>Invitation</h3>
+          <p style="font-family:var(--font-body); font-weight:600; font-size:16px;">All faculty, warmly welcome</p>
+          <small>Professors · HODs · Associate &amp; Assistant Professors, every department</small>
+        </div>
+      </div>
+
+      <div class="countdown-wrap reveal reveal-up">
+        <span class="countdown-label">Counting down to the first sapling</span>
+        <div class="countdown" id="countdown" role="timer" aria-live="polite">
+          <div class="flip-unit">
+            <div class="flip-digits" data-unit="days"><div class="flip-card"><div class="digit">0</div></div><div class="flip-card"><div class="digit">0</div></div></div>
+            <span>Days</span>
+          </div>
+          <div class="flip-unit">
+            <div class="flip-digits" data-unit="hours"><div class="flip-card"><div class="digit">0</div></div><div class="flip-card"><div class="digit">0</div></div></div>
+            <span>Hours</span>
+          </div>
+          <div class="flip-unit">
+            <div class="flip-digits" data-unit="minutes"><div class="flip-card"><div class="digit">0</div></div><div class="flip-card"><div class="digit">0</div></div></div>
+            <span>Minutes</span>
+          </div>
+          <div class="flip-unit">
+            <div class="flip-digits" data-unit="seconds"><div class="flip-card"><div class="digit">0</div></div><div class="flip-card"><div class="digit">0</div></div></div>
+            <span>Seconds</span>
+          </div>
+        </div>
+        <p class="countdown-done" id="countdownDone">Thank you for growing with us 🌱</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       REGISTER — PRIMARY CONVERSION
+       ================================================================ -->
+  <section class="register section-pad" id="register">
+    <div class="container register-inner">
+      <span class="eyebrow">Bloom — Take Part</span>
+      <h2 class="register-title reveal reveal-up">Come plant something that outlasts the morning.</h2>
+      <p class="register-copy reveal reveal-up">
+        Registration takes under a minute. We'll confirm your spot under Tower 5 and send
+        a short reminder closer to the date.
+      </p>
+      <!-- SWAP: replace the placeholder href below with your real Google Form link -->
+      <a class="cta-btn reveal reveal-up" id="registerBtn" href="https://forms.gle/PLACEHOLDER" target="_blank" rel="noopener">
+        <span class="cta-glow" id="ctaGlow" aria-hidden="true"></span>
+        Register Now
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
+      <p class="cta-note">Opens the registration form in a new tab</p>
     </div>
   </section>
 
-  <!-- sticky mobile CTA -->
-  <div id="mobileCta">
-    <a href="https://forms.gle/PLACEHOLDER" target="_blank" rel="noopener" class="btn btn-primary">Register for the Drive →</a>
-  </div>
-
-  <!-- ============================================================
+  <!-- ================================================================
        DIGNITARIES
-       ============================================================ -->
-  <section id="dignitaries" class="section-pad">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="eyebrow">In the Presence Of</div>
-        <h2>Leading the way, together</h2>
+       ================================================================ -->
+  <section class="dignitaries section-pad" id="dignitaries">
+    <div class="container">
+      <div class="dig-head">
+        <span class="eyebrow reveal reveal-up" style="justify-content:center;">Canopy — Guests of Honour</span>
+        <h2 class="dig-title reveal reveal-up">The faculty presiding over the morning.</h2>
       </div>
 
       <div class="dig-top">
-        <div class="dig-card glass reveal">
-          <div class="dig-avatar">GH</div>
-          <h4>Dr. G. Hariharan</h4>
-          <div class="qual">MS · DNB · MCh · FRCS</div>
-          <div class="role">The Dean</div>
+        <div class="dig-card glass reveal reveal-up">
+          <svg class="leaf-mark" viewBox="0 0 100 100" fill="none" stroke-width="4"><path d="M50 5 C20 25 15 60 50 95 C85 60 80 25 50 5 Z"/></svg>
+          <span class="dig-rank">The Dean</span>
+          <h3>Dr. G. Hariharan</h3>
+          <span class="quals">MS, DNB, MCH, FRCS</span>
+          <span class="role">Dean, Government Omandurar Medical College</span>
         </div>
-        <div class="dig-card glass reveal">
-          <div class="dig-avatar">RS</div>
-          <h4>Dr. R. Shanthimalar</h4>
-          <div class="qual">MD · DGO</div>
-          <div class="role">The Vice Principal</div>
+        <div class="dig-card glass reveal reveal-up">
+          <svg class="leaf-mark" viewBox="0 0 100 100" fill="none" stroke-width="4"><path d="M50 5 C20 25 15 60 50 95 C85 60 80 25 50 5 Z"/></svg>
+          <span class="dig-rank">The Vice Principal</span>
+          <h3>Dr. R. Shanthimalar</h3>
+          <span class="quals">MD, DGO</span>
+          <span class="role">Vice Principal, Government Omandurar Medical College</span>
         </div>
       </div>
 
-      <div class="dig-bottom">
-        <div class="dig-card glass reveal">
-          <div class="dig-avatar">TS</div>
-          <h4>Dr. G. Thiruvengada Senthilkumar</h4>
-          <div class="qual">MS</div>
-          <div class="role">Medical Superintendent</div>
+      <div class="dig-grid">
+        <div class="dig-card glass reveal reveal-up">
+          <svg class="leaf-mark" viewBox="0 0 100 100" fill="none" stroke-width="4"><path d="M50 5 C20 25 15 60 50 95 C85 60 80 25 50 5 Z"/></svg>
+          <span class="dig-rank">Medical Superintendent</span>
+          <h3>Dr. G. Thiruvengada Senthilkumar</h3>
+          <span class="quals">MS</span>
+          <span class="role">Medical Superintendent</span>
         </div>
-        <div class="dig-card glass reveal">
-          <div class="dig-avatar">PS</div>
-          <h4>Dr. P. Saravanan</h4>
-          <div class="qual">DA</div>
-          <div class="role">Resident Medical Officer</div>
+        <div class="dig-card glass reveal reveal-up">
+          <svg class="leaf-mark" viewBox="0 0 100 100" fill="none" stroke-width="4"><path d="M50 5 C20 25 15 60 50 95 C85 60 80 25 50 5 Z"/></svg>
+          <span class="dig-rank">Resident Medical Officer</span>
+          <h3>Dr. P. Saravanan</h3>
+          <span class="quals">DA</span>
+          <span class="role">Resident Medical Officer</span>
         </div>
-        <div class="dig-card glass reveal">
-          <div class="dig-avatar">AM</div>
-          <h4>Dr. S. Arun Murugan</h4>
-          <div class="qual">MBBS · MD</div>
-          <div class="role">HOD, Community Medicine</div>
+        <div class="dig-card glass reveal reveal-up">
+          <svg class="leaf-mark" viewBox="0 0 100 100" fill="none" stroke-width="4"><path d="M50 5 C20 25 15 60 50 95 C85 60 80 25 50 5 Z"/></svg>
+          <span class="dig-rank">HOD, Community Medicine</span>
+          <h3>Dr. S. Arun Murugan</h3>
+          <span class="quals">MBBS, MD</span>
+          <span class="role">Head of Department, Community Medicine</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer>
-    <div class="wrap">
-      <div class="footer-top">
+</main>
+
+<!-- ================================================================
+     FOOTER
+     ================================================================ -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
         <div class="footer-brand">
-          <svg viewBox="0 0 40 40" fill="none">
-            <circle cx="20" cy="15" r="9" fill="#8FA888"/>
-            <circle cx="12" cy="20" r="6" fill="#C9A855"/>
-            <path d="M20 22 L20 34" stroke="#F7F1E1" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          Canopy
+          <img src="images/logo-canopy.svg" alt="Canopy Eco Club logo" width="44" height="44">
+          <span>Canopy</span>
         </div>
-        <!-- LOGO PLACEHOLDERS: swap with logo-canopy.png and logo-gmc-hospital.png -->
-        <div class="footer-logos">
-          <div class="footer-logo-badge">CANOPY<br>EST. 2026</div>
-          <div class="footer-logo-badge">GMC &amp;<br>HOSPITAL</div>
-        </div>
+        <p class="footer-line">Government Omandurar Medical College, Chennai — Eco Club, Department of Community Medicine.</p>
       </div>
-      <div class="footer-meta">
-        <div>
-          <div class="footer-sponsor">Sponsored by <b>Bumitraa</b> — Bio Green World</div>
-          <div class="footer-loc" style="margin-top:6px;">Government Omandurar Medical College, Chennai</div>
+      <div class="footer-logos">
+        <img src="images/logo-canopy.svg" alt="Canopy logo" loading="lazy">
+        <img src="images/logo-gmc-hospital.svg" alt="Government Medical College & Hospital emblem" loading="lazy">
+        <div class="sponsor-lockup">
+          <span>Sponsored by</span>
+          <b>Bumitraa – Bio Green World</b>
         </div>
-        <div class="footer-tag">Together We Thrive</div>
       </div>
     </div>
-  </footer>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Canopy Eco Club · Government Omandurar Medical College, Chennai</p>
+      <p class="footer-closing">Together We Thrive</p>
+    </div>
+  </div>
+</footer>
 
-  <script>
-    /* ============================================================
-       PREFERS-REDUCED-MOTION CHECK
-       ============================================================ */
-    const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+<a class="mobile-sticky-cta" id="mobileCta" href="https://forms.gle/PLACEHOLDER" target="_blank" rel="noopener">
+  Register Now →
+</a>
 
-    /* ============================================================
-       OPENING LOGO BLOOM SEQUENCE
-       ============================================================ */
-    const bloom = document.getElementById('bloom');
-    const nav = document.getElementById('siteNav');
-
-    function finishBloom(){
-      bloom.classList.add('hide');
-      nav.classList.add('show');
-      document.body.style.overflow = '';
-    }
-
-    if (REDUCED) {
-      finishBloom();
-    } else {
-      document.body.style.overflow = 'hidden';
-      const tl = gsap.timeline({ onComplete: finishBloom });
-      tl.to('#trunkPath', { strokeDashoffset: 0, duration: 1.1, ease: 'power2.out' })
-        .to('.tree-canopy', { opacity: 1, scale: 1, duration: .6, stagger: .12, ease: 'back.out(1.6)' }, '-=0.3')
-        .to('.bloom-word', { opacity: 1, y: -6, duration: .5 }, '-=0.2')
-        .to({}, { duration: .55 }) // brief hold
-        .call(finishBloom);
-
-      // allow user to skip the intro by scrolling/clicking
-      window.addEventListener('wheel', finishBloom, { once: true });
-      window.addEventListener('touchstart', finishBloom, { once: true });
-      bloom.addEventListener('click', finishBloom);
-    }
-
-    /* ============================================================
-       COUNTDOWN
-       ============================================================ */
-    const target = new Date('2026-07-10T09:00:00');
-    const cd = {
-      days: document.getElementById('cd-days'),
-      hours: document.getElementById('cd-hours'),
-      mins: document.getElementById('cd-mins'),
-      secs: document.getElementById('cd-secs')
-    };
-    function pad(n){ return String(n).padStart(2,'0'); }
-
-    function tick(){
-      const now = new Date();
-      const diff = target - now;
-
-      if (diff <= 0) {
-        const card = document.querySelector('.countdown-card .label');
-        if (card) card.textContent = 'Happening now — thank you for joining!';
-        cd.days.textContent = cd.hours.textContent = cd.mins.textContent = cd.secs.textContent = '00';
-        return;
-      }
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-
-      updateDigit(cd.days, pad(d));
-      updateDigit(cd.hours, pad(h));
-      updateDigit(cd.mins, pad(m));
-      updateDigit(cd.secs, pad(s));
-    }
-    function updateDigit(el, val){
-      if (el.textContent !== val) {
-        if (!REDUCED) {
-          gsap.fromTo(el, { y: -6, opacity: .4 }, { y: 0, opacity: 1, duration: .3, ease: 'power2.out' });
-        }
-        el.textContent = val;
-      }
-    }
-    tick();
-    setInterval(tick, 1000);
-
-    /* ============================================================
-       SCROLL-TRIGGERED REVEALS
-       ============================================================ */
-    gsap.registerPlugin(ScrollTrigger);
-
-    if (!REDUCED) {
-      document.querySelectorAll('.reveal').forEach((el, i) => {
-        gsap.to(el, {
-          opacity: 1, y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 85%' }
-        });
-      });
-
-      gsap.utils.toArray('.dig-card').forEach((el, i) => {
-        gsap.fromTo(el, { opacity: 0, y: 50 }, {
-          opacity: 1, y: 0, duration: .9, ease: 'power3.out', delay: (i % 3) * 0.08,
-          scrollTrigger: { trigger: el, start: 'top 88%' }
-        });
-      });
-
-      // hero parallax
-      gsap.to('#heroParallax', {
-        yPercent: 18, ease: 'none',
-        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
-      });
-    } else {
-      document.querySelectorAll('.reveal').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
-    }
-
-    /* ============================================================
-       AMBIENT LEAF PARTICLES (hero)
-       ============================================================ */
-    if (!REDUCED) {
-      const particleHost = document.getElementById('particles');
-      const leafSVG = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6 2 2 8 2 14c0 5 4 8 10 8s10-3 10-8c0-6-4-12-10-12z"/></svg>`;
-      for (let i = 0; i < 14; i++) {
-        const leaf = document.createElement('div');
-        leaf.className = 'leaf-particle';
-        leaf.innerHTML = leafSVG;
-        leaf.style.left = Math.random() * 100 + '%';
-        leaf.style.top = Math.random() * 100 + '%';
-        leaf.style.color = i % 3 === 0 ? 'var(--gold)' : 'var(--sage)';
-        particleHost.appendChild(leaf);
-        gsap.to(leaf, {
-          y: '+=' + (30 + Math.random() * 60),
-          x: '+=' + (Math.random() * 40 - 20),
-          rotation: Math.random() * 60 - 30,
-          duration: 6 + Math.random() * 6,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-          delay: Math.random() * 3
-        });
-      }
-    }
-
-    /* ============================================================
-       CURSOR GLOW ON REGISTER CTA (mystical hover)
-       ============================================================ */
-    const registerSection = document.getElementById('register');
-    const cursorGlow = document.getElementById('cursorGlow');
-    if (!REDUCED && window.matchMedia('(hover: hover)').matches) {
-      registerSection.addEventListener('mousemove', (e) => {
-        const rect = registerSection.getBoundingClientRect();
-        cursorGlow.style.left = (e.clientX - rect.left) + 'px';
-        cursorGlow.style.top = (e.clientY - rect.top) + 'px';
-        cursorGlow.style.opacity = '1';
-      });
-      registerSection.addEventListener('mouseleave', () => { cursorGlow.style.opacity = '0'; });
-    }
-
-    /* ============================================================
-       STICKY MOBILE CTA — show after hero, hide once register visible
-       ============================================================ */
-    const mobileCta = document.getElementById('mobileCta');
-    const heroEl = document.getElementById('hero');
-    const registerEl = document.getElementById('register');
-
-    const ctaObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.target === heroEl) {
-          if (!entry.isIntersecting) mobileCta.classList.add('show');
-          else mobileCta.classList.remove('show');
-        }
-        if (entry.target === registerEl) {
-          if (entry.isIntersecting) mobileCta.classList.remove('show');
-        }
-      });
-    }, { threshold: 0.15 });
-    ctaObserver.observe(heroEl);
-    ctaObserver.observe(registerEl);
-  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
