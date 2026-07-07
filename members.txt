@@ -1,0 +1,44 @@
+  <!-- CLUB MEMBERS SECTION -->
+  <section id="members" class="section-pad">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Leadership Team</div>
+        <h2>Club Members</h2>
+        <p>Meet the dedicated student leadership team steering the Canopy Eco Club toward a more sustainable and greener tomorrow through innovation and service.</p>
+      </div>
+      <div class="members-grid">
+        <div class="member-card glass reveal">
+          <div class="member-photo-wrap">
+            <img src="images/sen.jpg" alt="Senthilnathan S">
+          </div>
+          <div class="member-role">President</div>
+          <h4>Senthilnathan S</h4>
+        
+        </div>
+        <div class="member-card glass reveal">
+          <div class="member-photo-wrap">
+            <img src="images/kis.jpg" alt="Kishore Kumar S">
+          </div>
+          <div class="member-role">Vice President</div>
+          <h4>Kishore Kumar S</h4>
+         
+        </div>
+        <div class="member-card glass reveal">
+          <div class="member-photo-wrap">
+            <img src="images/jer.jpg" alt="Jeremy John">
+          </div>
+          <div class="member-role">Secretary</div>
+          <h4>Jeremy John</h4>
+         
+        </div>
+        <div class="member-card glass reveal">
+          <div class="member-photo-wrap">
+            <img src="images/fay.jpg" alt="Fayis Ashraf">
+          </div>
+          <div class="member-role">Joint Secretary</div>
+          <h4>Fayis Ashraf</h4>
+         
+        </div>
+      </div>
+    </div>
+  </section>
